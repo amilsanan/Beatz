@@ -1,13 +1,10 @@
 var db = require("../config/connection");
 var collection = require("../config/collections");
 const bcrypt = require("bcrypt");
-const { Collection } = require("mongoose");
-const { USER_COLLECTION, CART_COLLECTION } = require("../config/collections");
-const { response } = require("../app");
-const { ReturnDocument } = require("mongodb");
+
 const objectId = require('mongodb').ObjectId
 const Razorpay=require('razorpay');
-const { log } = require("console");
+
 var instance = new Razorpay({ key_id: 'rzp_test_l1R1frsNXkrruh', key_secret: '4yATudDZJgYkSze6yXHZKlTb' })
 
 module.exports = {
