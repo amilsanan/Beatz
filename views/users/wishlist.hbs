@@ -1,0 +1,292 @@
+<body>
+  
+
+    <!-- Offcanvas Menu Begin -->
+    <div class="offcanvas-menu-overlay"></div>
+    <div class="offcanvas-menu-wrapper">
+        <div class="offcanvas__option">
+            <div class="offcanvas__links">
+                <a href="#">Sign in</a>
+                <a href="#">FAQs</a>
+            </div>
+            <div class="offcanvas__top__hover">
+                <span>Usd <i class="arrow_carrot-down"></i></span>
+                <ul>
+                    <li>USD</li>
+                    <li>EUR</li>
+                    <li>USD</li>
+                </ul>
+            </div>
+        </div>
+        <div class="offcanvas__nav__option">
+            <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
+            <a href="#"><img src="img/icon/heart.png" alt=""></a>
+            <a href="#"><img src="img/icon/cart.png" alt=""> <span>0</span></a>
+            <div class="price">$0.00</div>
+        </div>
+        <div id="mobile-menu-wrap"></div>
+        <div class="offcanvas__text">
+            <p>Free shipping, 30-day return or refund guarantee.</p>
+        </div>
+    </div>
+    <!-- Offcanvas Menu End -->
+
+    <!-- Header Section Begin -->
+
+    <!-- Header Section Begin -->
+    <header class="header">
+        <div class="header__top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-7">
+                        <div class="header__top__left">
+                            <p>Free shipping, 30-day return or refund guarantee.</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-5">
+                        <div class="header__top__right">
+                            <div class="header__top__links">
+                                {{#if session}}
+                                <div class="price"><a style="color:rgb(255, 250, 250);font-size:18px ;"
+                                        href="">{{session.Fullname}}</a>
+                                    <ul class="dropdown">
+                                        <li><a style="color:rgb(255, 251, 251);" href="/logout">Logout</a></li>
+
+                                </div>
+                                {{else}}
+                                <div class="price"><a style="color:rgb(253, 249, 249);font-size:18px ;"
+                                        href="login">Login</a>
+                                </div>
+                                {{/if}}
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-3">
+                    <div class="header__logo">
+                        <a href="./index.html"><img src="img/logo.png" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <nav class="header__menu mobile-menu">
+                        <ul>
+                            <li class="active"><a href="/">Home</a></li>
+                            <li><a href="shop">Shop</a></li>
+                            <li><a href="#">Brands</a>
+                                <ul class="dropdown">
+                                    <li><a href="./about.html">Nothing</a></li>
+                                    <li><a href="./shop-details.html">Boat</a></li>
+                                    <li><a href="./shopping-cart.html">Sony</a></li>
+                                    <li><a href="./checkout.html">JBL</a></li>
+                                    <li><a href="./blog-details.html">Skullcandy</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="./blog.html">Offer zone</a></li>
+                            <li><a href="#">More</a>
+                                <ul class="dropdown">
+                                    <li><a href="./about.html">Earphones</a></li>
+                                    <li><a href="./shop-details.html">Headphones</a></li>
+                                    <li><a href="./shopping-cart.html">Earbuds</a></li>
+                                    <li><a href="./shopping-cart.html">Speakers</a></li>
+
+                            </li>
+
+
+
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="header__nav__option">
+                        <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
+                        <a href="#"><img src="/userAssets/img/icon/heart.png" alt=""></a>
+                        <a href="cart"><img src="/userAssets/img/icon/cart.png" alt=""> <span></span></a>
+
+                    </div>
+                </div>
+            </div>
+            <div class="canvas__open"><i class="fa fa-bars"></i></div>
+        </div>
+    </header>
+    <!-- Header Section End -->
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__text">
+                        <h4>Shopping Cart</h4>
+                        <div class="breadcrumb__links">
+                            <a href="./index.html">Home</a>
+                            <a href="./shop.html">Shop</a>
+                            <span>Shopping Cart</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Shopping Cart Section Begin -->
+
+    <section class="shopping-cart spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="shopping__cart__table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Price</th>
+
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            {{#each products}}
+                            <tbody>
+                                <tr>
+                                    <td class="product__cart__item">
+                                        <div class="product__cart__item__pic">
+                                            <img style="width: 100px; ;" src="/product-images/{{this.product._id}}.jpg"
+                                                alt="">
+                                        </div>
+                                        <div class="product__cart__item__text">
+                                            <h6>{{this.product.Name}}</h6>
+
+                                        </div>
+                                    </td>
+                                   
+                    </div>
+                    </td>
+                    <td class="cart__quantity">{{this.product.Price}}</td>
+                    <td class="cart__close"><button onclick="removeProduct('{{this._id}}','{{this.product._id}}')"   class="fa fa-close"></button></td>
+                    </tr>
+
+                    </tbody>
+                    {{/each}}
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="continue__btn">
+                            <a href="/">Continue Shopping</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="continue__btn update__btn">
+                            <a href="#"><i class="fa fa-spinner"></i> Add To Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+        </div>
+    </section>
+    <!-- Shopping Cart Section End -->
+
+
+
+    <!-- Search Begin -->
+    <div class="search-model">
+        <div class="h-100 d-flex align-items-center justify-content-center">
+            <div class="search-close-switch">+</div>
+            <form class="search-model-form">
+                <input type="text" id="search-input" placeholder="Search here.....">
+            </form>
+        </div>
+    </div>
+
+
+
+</body>
+<script>
+    /* function changeQuantity(cartid, proid, count) {
+         $.ajax({
+             url: '/change-product-quantity',
+             data: {
+                     cart:cartid,
+                     product:proid,
+                     count:count
+             },
+             method:'post',
+             success:(response)=>{
+                
+             }
+ 
+ 
+ 
+         })
+     }
+    */
+
+    function changeQuantity(cartId, proId, price, count) {
+        console.log("hello")
+        let quantity = parseInt(document.getElementById(proId).innerHTML)
+        console.log(quantity)
+        count = parseInt(count)
+        $.ajax({
+            url: '/change-product-quantity',
+            data: {
+                cart: cartId,
+                product: proId,
+                count: count,
+                quantity: quantity
+            },
+            method: 'post',
+            success: (response) => {
+                console.log(response)
+                if (response.removeProduct) {
+                    swal({
+                        title: "Are you sure?",
+                        text: "Are you sure you want to remove this item?",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    }).then((willDelete) => {
+                        if (willDelete) {
+                            swal("Your item is removed from the cart", {
+                                icon: "success",
+                            });
+                            location.reload()
+                        } else {
+                            swal("Your imaginary file is safe!");
+                        }
+                    });
+
+                } else {
+                    document.getElementById(proId).value = quantity + count
+                    console.log(quantity, proId, count)
+                    window.location.reload()
+                }
+            }
+
+        })
+    }
+    function removeProduct(proId){
+    $.ajax({
+      url:'/removefromwishlist',
+      data:{
+      productId:proId
+      },
+       method:'post',
+      success:(response)=>{
+        
+          alert("removed ")
+          location.reload()
+
+      }   
+    })
+  }
+</script>
+
+</html>

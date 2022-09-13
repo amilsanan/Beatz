@@ -1,0 +1,102 @@
+<section>
+  <div class="container mt-3">
+
+    <table class="table" id="productsTable">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Title</th>
+          <th scope="col">category</th>
+          <th scope="col">price</th>
+          <th scope="col">Description</th>
+          <th>Image</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {{#each products}}
+        <tr>
+          <th scope="row">{{@index}}</th>
+          <td>{{this.Name}}</td>
+          <td>{{this.Category}}</td>
+          <td>{{this.Price}}</td>
+          <td>{{this.Description}}</td>
+          <td><img style="width: 50px; height: 50px" src="/product-images/{{this._id}}.jpg" alt="">
+            <a href="/admin/edit-product/{{this._id}}" class="btn btn-primary">Edit</a>
+            <a href="/admin/delete-product/{{this._id}}" class="btn btn-danger"
+              onclick="return confirm('Are you Want to delete {{this.Name}} ?')">Delete</a>
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+      Add Products
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="col-md-6">
+              <form action="/admin/addproduct" method="post" enctype="multipart/form-data">
+
+                <div class="form-group col-md-12">
+                  <label for="">Name</label>
+                  <input type="text" class="form-control" name="Name" placeholder="Name of the Product">
+                </div>
+                <div class="form-group col-md-12">
+                  <label for="">Category</label>
+                  <input type="text" class="form-control" name="Category" placeholder="Category">
+                </div>
+                <div class="form-group col-md-12">
+                  <label for="">Price</label>
+                  <input type="text" class="form-control" name="Price" placeholder="Price">
+                </div>
+                <div class="form-group col-md-12">
+                  <label for="">Description</label>
+                  <input type="text" class="form-control" name="Description" placeholder="Description about product">
+                </div>
+                <div class="form-group col-md-12">
+                  <label for="">Image</label>
+                    <img src="/product-images/{{product._id}}.jpg" alt="" style="width: 100px; height: auto;">
+                  <input type="file" class="form-control" name="Image" placeholder="Password">
+                </div>
+
+
+                <button type="submit" class="btn btn-primary mt-3">Submit</button>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+  
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+
+        $('#productsTable').wrap('<div id="hide" style="display:none"/>');
+
+        $('#hide').css('display', 'block');
+    });
+
+
+    var table = $('#productsTable').DataTable();
+</script>
