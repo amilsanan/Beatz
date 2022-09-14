@@ -24,17 +24,8 @@ router.get('/', function (req, res, next) {
 
 
   router.post('/',(req,res)=>{
-  
-   
-      let a=1
-     if(a=1){
-      console.log("");
-      req.session.adminLoggedIn=true
-      req.session.admin=response.admin
       res.render('admin/admin-dashboard')
-     }else{
-      res.redirect('/admin')
-     }
+   
     })
 
 
