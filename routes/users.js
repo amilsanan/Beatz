@@ -102,7 +102,7 @@ router.get("/cart", async (req, res) => {
   let products = await userHelpers.getCartProducts(req.session.user._id)
   let total=0;
   if(products.length>0){
-  let total = await userHelpers.getTotalAmount(req.session.user._id)}
+  total = await userHelpers.getTotalAmount(req.session.user._id)}
   res.render("users/Cart", { products, total,session });
   console.log(total);
 });
@@ -162,15 +162,13 @@ router.get("/wishlist", async (req, res) => {
 
 router.get("/checkout", async (req, res) => {
   let products = await userHelpers.getCartProducts(req.session.user._id)
-  let total=0
-  if(products.length>0){
-    let total = await userHelpers.getTotalAmount(req.session.user._id)
-  }
-  let session = req.session.user
-  res.render('users/checkout', { total, products, session })
+   total = await userHelpers.getTotalAmount(req.session.user._id)
+  let user = req.session.user
+  res.render('users/checkout', { total, products,user })
 })
 router.post("/checkout", async (req, res) => {
   console.log('hii bishr');
+  console.log(req.body);
   let products = await userHelpers.getCartProductList(req.body.userId)
   let totalPrice = await userHelpers.getTotalAmount(req.body.userId)
   userHelpers.placeOrder(req.body, products, totalPrice).then((orderId) => {
