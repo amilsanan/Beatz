@@ -25,7 +25,7 @@ router.get('/', function (req, res, next) {
 
   router.post('/',(req,res)=>{
   
-    adminHelper.doAdminLogin(req.body).then((response)=>{
+   
       let a=1
      if(a=1){
       console.log("");
@@ -36,7 +36,7 @@ router.get('/', function (req, res, next) {
       res.redirect('/admin')
      }
     })
-  })
+
 
   router.get('/admin-viewproducts', function (req, res, next) {
     console.log('test2');
