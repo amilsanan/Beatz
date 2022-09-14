@@ -423,7 +423,8 @@ module.exports = {
 
   },
   getCartProductList: (userId) => {
-    return new Promise(async (resolve, reject) => {
+    	console.log(userId)
+	return new Promise(async (resolve, reject) => {
       let cart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: objectId(userId) })
 
       resolve(cart.products)
@@ -442,6 +443,7 @@ module.exports = {
   getOrderProducts: (orderId) => {
     return new Promise(async (resolve, reject) => {
       let orderItems = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+
         {
           $match: { _id: objectId(orderId) }
         },
