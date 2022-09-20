@@ -284,7 +284,7 @@
                       method:'post',
                       data:$("#checkoutform").serialize(),
                       success:(response)=>{
-                        alert(response)
+                        alert("Please Comlete online Payment")
                         if(response.codSuccess){
                             location.href='orders'
                         }
@@ -298,7 +298,6 @@
         })
 
         function razorpayPayment(order){
-            console.log("here")
             var options = {
     "key": "rzp_test_l1R1frsNXkrruh", // Enter the Key ID generated from the Dashboard
     "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
@@ -308,9 +307,7 @@
     "image": "https://example.com/your_logo",
     "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
     "handler": function (response){
-        alert(response.razorpay_payment_id);
-        alert(response.razorpay_order_id);
-        alert(response.razorpay_signature);
+        
         verifyPayment(response,order)
     },
     "prefill": {

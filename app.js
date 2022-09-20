@@ -57,6 +57,12 @@ app.use('/', usersRouter);
 app.use('/admin', adminRouter);
 
 
+//index starts at 1
+
+Handlebars.registerHelper("inc", function(value, options)
+{
+    return parseInt(value) + 1;
+});
 
 
 // catch 404 and forward to error handler

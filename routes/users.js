@@ -5,7 +5,7 @@ var router = express.Router();
 const userHelpers = require('../helpers/user-helper')
 const productHelpers = require('../helpers/productHelpers')
 const adminHelpers = require('../helpers/adminhelper')
-
+const offerHelper=require('../helpers/offer-helper')
 
 //login verification middleware
 const verifyLogin = (req, res, next) => {
@@ -80,7 +80,10 @@ router.get('/logout', function (req, res,) {
 
 
 router.get('/shop', (req, res) => {
-  res.render('users/shop')
+  let session = req.session.user
+  productHelpers.getAllProducts().then((products) => {
+    res.render('users/shop', { session, products })
+  })
 })
 
 
@@ -160,6 +163,20 @@ router.get("/wishlist", async (req, res) => {
   }
 });
 
+//Coupon
+router.post('/apply-coupon', verifyLogin, (req, res) => {
+  //console.log("userjs", req.body, "sxxsx", req.session.user._id);
+  offerHelper.applyCoupon(req.body, req.session.user._id).then((response) => {
+    if (response.status) {
+      req.session.coupon = response.coupon;
+      req.session.discount = response.discountTotal
+      // console.log("user",req.session.coupon);
+    }
+    // console.log('user coup', response);
+    res.json(response)
+  })
+})
+
 router.get("/checkout", async (req, res) => {
   let products = await userHelpers.getCartProducts(req.session.user._id)
    total = await userHelpers.getTotalAmount(req.session.user._id)
@@ -182,7 +199,8 @@ router.post("/checkout", async (req, res) => {
 
     }
   })
-
+  req.session.discount = null;
+  req.session.coupon = null;
 
 })
 router.get("/orders", async (req, res) => {
