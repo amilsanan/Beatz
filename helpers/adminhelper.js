@@ -38,6 +38,41 @@ module.exports={
             .find().toArray()
              resolve(orders)
         })
-      }
+      },
+      //coupon
+
+    addCoupon : (coupon) => {
+        coupon.name= coupon.name.toUpperCase()
+        coupon.user =[]
+        coupon.discount = parseInt(coupon.discount)
+        return new Promise(async(resolve,reject) => {
+            let coupons = await db.get().collection(collection.COUPON_COLLECTION).findOne({name:coupon.name})
+            if(coupons){
+                reject('already exists')
+            }else{
+                db.get().collection(collection.COUPON_COLLECTION).insertOne(coupon).then((response) => {
+                    console.log("cou",coupon);
+                    resolve(response)
+                })
+            }
+
+        })
+    },
+    viewCoupon : () => {
+        return new Promise(async(resolve,reject) => {
+          let couponDetails = await  db.get().collection(collection.COUPON_COLLECTION).find().toArray()
+                resolve(couponDetails);
+        })
+    },
+    deleteCoupon : (couponId) => {
+        return new Promise(async(resolve,reject) => {
+            db.get().collection(collection.COUPON_COLLECTION).deleteOne({_id:objectId(couponId)}).then((response)=>{
+                resolve({status:true});
+            }).catch(() => {
+                reject();
+            })
+        })
+    },
 }
+
 

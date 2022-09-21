@@ -131,7 +131,7 @@
                 <div class="col-lg-3 col-md-3">
                     <div class="header__nav__option">
                         <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
-                        <a href="#"><img src="/userAssets/img/icon/heart.png" alt=""></a>
+                        <a href="wishlist"><img src="/userAssets/img/icon/heart.png" alt=""></a>
                         <a href="cart"><img src="/userAssets/img/icon/cart.png" alt=""> <span></span></a>
                         
                     </div>
@@ -480,7 +480,6 @@
          
         function addToCart(proId){
             $.ajax({
-                console.log("hoi hoi+")
                 url: '/add-to-cart',
                 method: 'post',
                 data:{productId:proId},
@@ -501,8 +500,6 @@
             
         }
         function addToWishlist(proId){
-                console.log(proId)
-                console.log("okk")
                $.ajax({
                 url: '/addtowishlist',
                 method: 'post',

@@ -201,7 +201,7 @@
             <div class="col-lg-4">
                 <div class="cart__discount">
                     <h6>Discount codes</h6>
-                    <form action="#">
+                    <form id="couponForm">
                         <input type="text" placeholder="Coupon code">
                         <button type="submit">Apply</button>
                     </form>
@@ -316,6 +316,37 @@
       }   
     })
   }
+
+  $('#couponForm').submit((e) => {
+  e.preventDefault();
+  $.ajax({
+    url: '/apply-coupon',
+    method:'post',
+    data:$('#couponForm').serialize(),
+    success:(resource) => {
+      if(resource.status) {
+        swal({
+          position: 'center',
+          icon: 'success',
+          title: 'Coupon Success',
+          showConfirmButton: false,
+          timer: 2000
+        })
+        document.getElementById('discount').innerHTML = resource.discountPrice
+        document.getElementById('total').innerHTML = resource.discountTotal
+      }else{
+        swal({
+          position: 'center',
+          icon: 'Failed',
+          title: 'Invalid coupon!',
+          showConfirmButton: false,
+          timer: 2000
+        })
+      }
+    }
+  })
+})
+
 </script>
 
 </html>

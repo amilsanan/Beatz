@@ -164,8 +164,9 @@ router.get("/wishlist", async (req, res) => {
 });
 
 //Coupon
-router.post('/apply-coupon', verifyLogin, (req, res) => {
-  //console.log("userjs", req.body, "sxxsx", req.session.user._id);
+router.post('/apply-coupon',(req, res) => {
+  let session = req.session.user;
+  console.log("userjs", req.body, "sxxsx", req.session.user._id);
   offerHelper.applyCoupon(req.body, req.session.user._id).then((response) => {
     if (response.status) {
       req.session.coupon = response.coupon;

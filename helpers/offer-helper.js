@@ -1,3 +1,9 @@
+var db=require('../config/connection')
+var collection=require('../config/collections')
+
+var objectId=require('mongodb').ObjectId
+                                               
+module.exports={
 applyCoupon: (coupon, userId) => {
     console.log(coupon);
     return new Promise(async (resolve, reject) => {
@@ -25,4 +31,5 @@ applyCoupon: (coupon, userId) => {
             resolve(response)
         }
     })
+}
 }

@@ -423,19 +423,19 @@ module.exports = {
 
   },
   getCartProductList: (userId) => {
-<<<<<<< HEAD
-    	console.log(userId)
+ 	console.log(userId)
 	return new Promise(async (resolve, reject) => {
-=======
+
     console.log(userId);
     return new Promise(async (resolve, reject) => {
->>>>>>> 52b2dfa2d1caae9eea11ce7e2ed57e6229860132
+
       let cart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: objectId(userId) })
 
       resolve(cart.products)
 
     })
-  },
+  })
+},
   getUserOrders: (userId) => {
     return new Promise(async (resolve, reject) => {
       console.log(userId);

@@ -196,4 +196,38 @@ router.get('/add-banner',(req,res,next)=>{
 //   res.redirect('/admin')
 // })
 
+//Coupon Management
+router.get('/viewCoupon',  (req, res) => {
+
+  adminHelper.viewCoupon().then((couponDetails) => {
+    res.render('admin/viewCoupon', {layout:'admin-layout', admin:true , couponDetails })
+  })
+})
+
+router.get('/addCoupon',  (req, res) => {
+  let errMss= req.session.addCouponErr
+  res.render('admin/addCoupon', {errMss  })
+  req.session.addCouponErr=false
+})
+
+router.post('/addCoupon', (req, res) => {
+  adminHelper.addCoupon(req.body).then((response) => {
+    res.redirect('/admin/viewCoupon')
+  }).catch((err)=>{
+    req.session.addCouponErr=err;
+    res.redirect('/admin/addCoupon')
+  })
+})
+// router.post('/coupon',(req,res) => {
+//   //console.log(req.body);
+// })
+router.get('/remove_coupon/:id', (req, res) => {
+  adminHelper.deleteCoupon(req.params.id).then((response) => {
+    res.json(response)
+  }).catch((err) => {
+    console.log(err);
+  })
+})
+
+
 module.exports = router;
