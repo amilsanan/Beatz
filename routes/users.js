@@ -5,7 +5,7 @@ var router = express.Router();
 const userHelpers = require('../helpers/user-helper')
 const productHelpers = require('../helpers/productHelpers')
 const adminHelpers = require('../helpers/adminhelper')
-const offerHelper=require('../helpers/offer-helper')
+const offerHelper = require('../helpers/offer-helper')
 
 //login verification middleware
 const verifyLogin = (req, res, next) => {
@@ -103,15 +103,19 @@ router.post("/add-to-cart", (req, res) => {
 router.get("/cart", async (req, res) => {
   let session = req.session.user;
   let products = await userHelpers.getCartProducts(req.session.user._id)
-  let total=0;
-  if(products.length>0){
-  total = await userHelpers.getTotalAmount(req.session.user._id)}
-  res.render("users/Cart", { products, total,session });
+  let total = 0;
+
+  if (products.length > 0) {
+    total = await userHelpers.getTotalAmount(req.session.user._id)
+  }
+  let coupon = req.session.coupon
+  let discount = req.session.discount
+  res.render("users/Cart", { products, total, session, coupon, discount });
   console.log(total);
 });
 
 router.post('/change-product-quantity', (req, res, next) => {
-  console.log(req.body);
+  console.log('ji', req.body);
   userHelpers.changeProductQuantity(req.body).then((response) => {
     console.log(response)
     res.json(response)
@@ -164,9 +168,8 @@ router.get("/wishlist", async (req, res) => {
 });
 
 //Coupon
-router.post('/apply-coupon',(req, res) => {
+router.post('/apply-coupon', (req, res) => {
   let session = req.session.user;
-  console.log("userjs", req.body, "sxxsx", req.session.user._id);
   offerHelper.applyCoupon(req.body, req.session.user._id).then((response) => {
     if (response.status) {
       req.session.coupon = response.coupon;
@@ -180,18 +183,23 @@ router.post('/apply-coupon',(req, res) => {
 
 router.get("/checkout", async (req, res) => {
   let products = await userHelpers.getCartProducts(req.session.user._id)
-   total = await userHelpers.getTotalAmount(req.session.user._id)
+  total = await userHelpers.getTotalAmount(req.session.user._id)
+  let coupon = req.session.coupon
   let user = req.session.user
-  res.render('users/checkout', { total, products,user })
+  let discount = req.session.discount
+  res.render('users/checkout', { total, products, user, coupon, discount })
 })
 router.post("/checkout", async (req, res) => {
+  
   console.log('hii bishr');
   console.log(req.body);
   let products = await userHelpers.getCartProductList(req.body.userId)
+  console.log(products);
   let totalPrice = await userHelpers.getTotalAmount(req.body.userId)
+  console.log(totalPrice);
   userHelpers.placeOrder(req.body, products, totalPrice).then((orderId) => {
-    if (req.body['payment-method'] =='cod') {
-      res.json({codSuccess: true })
+    if (req.body['payment-method'] == 'cod') {
+      res.json({ codSuccess: true })
     } else {
       userHelpers.generateRazorpay(orderId, totalPrice).then((response) => {
         res.json(response)
@@ -215,20 +223,20 @@ router.get("/view-order-products/:id", async (req, res) => {
   res.render('users/view-order-products', { user: req.session.user, products })
 })
 
-router.post("/verify-payment",(req,res)=>{
+router.post("/verify-payment", (req, res) => {
   console.log(req.body);
-  userHelpers.verifyPayment(req.body).then(()=>{
-    userHelpers.changeOrderStatus(req.body['order[receipt]']) .then(()=>{
+  userHelpers.verifyPayment(req.body).then(() => {
+    userHelpers.changeOrderStatus(req.body['order[receipt]']).then(() => {
       console.log("payment successful");
-      res.json({status:true})
+      res.json({ status: true })
     })
 
   })
-  .catch((err)=>{
-    console.log(err);
-    res.json({status:false,errMsg:"payement failed"})
+    .catch((err) => {
+      console.log(err);
+      res.json({ status: false, errMsg: "payement failed" })
 
-  })
+    })
 
 })
 

@@ -3,7 +3,7 @@ var collection = require("../config/collections");
 const bcrypt = require("bcrypt");
 
 const objectId = require('mongodb').ObjectId
-const Razorpay=require('razorpay');
+const Razorpay = require('razorpay');
 
 var instance = new Razorpay({ key_id: 'rzp_test_l1R1frsNXkrruh', key_secret: '4yATudDZJgYkSze6yXHZKlTb' })
 
@@ -356,6 +356,7 @@ module.exports = {
   },
 
   getTotalAmount: (userId) => {
+    console.log(userId);
     return new Promise(async (resolve, reject) => {
       let total = await db.get().collection(collection.CART_COLLECTION).aggregate([
         {
@@ -423,19 +424,13 @@ module.exports = {
 
   },
   getCartProductList: (userId) => {
- 	console.log(userId)
-	return new Promise(async (resolve, reject) => {
-
-    console.log(userId);
-    return new Promise(async (resolve, reject) => {
-
-      let cart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: objectId(userId) })
-
-      resolve(cart.products)
-
-    })
-  })
-},
+      return new Promise(async (resolve, reject) => {
+        let cart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: objectId(userId) })
+        console.log(cart.products);
+        resolve(cart.products);
+      })
+    
+  },
   getUserOrders: (userId) => {
     return new Promise(async (resolve, reject) => {
       console.log(userId);
@@ -480,55 +475,54 @@ module.exports = {
       resolve(orderItems)
     })
   },
-  generateRazorpay: (orderId,totalPrice) => {
+  generateRazorpay: (orderId, totalPrice) => {
     return new Promise((resolve, reject) => {
-        var options = {
-        amount: totalPrice*100,  // amount in the smallest currency unit
+      var options = {
+        amount: totalPrice * 100,  // amount in the smallest currency unit
         currency: "INR",
-        receipt: ""+orderId
-        
+        receipt: "" + orderId
+
       }
       instance.orders.create(options, function (err, order) {
-        console.log("Neworder:",order)
-        resolve(order)           
+        console.log("Neworder:", order)
+        resolve(order)
       })
     })
   },
-  verifyPayment:(details)=>{
-    return new Promise((resolve,reject)=>{
+  verifyPayment: (details) => {
+    return new Promise((resolve, reject) => {
 
-      const crypto=require('crypto')
-      let hmac=crypto.createHmac('sha256','4yATudDZJgYkSze6yXHZKlTb')
-      hmac.update(details['payment[razorpay_order_id]']+'|'+details['payment[razorpay_payment_id]']);
+      const crypto = require('crypto')
+      let hmac = crypto.createHmac('sha256', '4yATudDZJgYkSze6yXHZKlTb')
+      hmac.update(details['payment[razorpay_order_id]'] + '|' + details['payment[razorpay_payment_id]']);
       console.log(details['payment[razorpay_order_id]']);
       console.log(details['payment[razorpay_payment_id]']);
       console.log(hmac);
-      hmac=hmac.digest('hex')
+      hmac = hmac.digest('hex')
       console.log(hmac);
       console.log(details['payment[razorpay_signature]']);
-      if(hmac==details['payment[razorpay_signature]'])
-      {
+      if (hmac == details['payment[razorpay_signature]']) {
         resolve()
       }
-        else{
-          console.log("mooonji");
-          reject()
-        }
+      else {
+        console.log("mooonji");
+        reject()
+      }
     })
   },
-  changeOrderStatus:(orderId)=>{
+  changeOrderStatus: (orderId) => {
     console.log(orderId);
-      return new Promise((resolve, reject) => {
-        db.get().collection(collection.ORDER_COLLECTION).updateOne({_id:objectId(orderId)},
+    return new Promise((resolve, reject) => {
+      db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: objectId(orderId) },
         {
-            $set:{
-              status:'placed'
-            }
+          $set: {
+            status: 'placed'
+          }
         }
-        ).then(()=>{
-          resolve()
-        })
+      ).then(() => {
+        resolve()
       })
+    })
 
   }
 
