@@ -1,5 +1,5 @@
 <body>
-  
+
 
     <!-- Offcanvas Menu Begin -->
     <div class="offcanvas-menu-overlay"></div>
@@ -93,7 +93,7 @@
                                     <li><a href="./about.html">Earphones</a></li>
                                     <li><a href="./shop-details.html">Headphones</a></li>
                                     <li><a href="./shopping-cart.html">Earbuds</a></li>
-                                    <li><a href="./shopping-cart.html">Speakers</a></li>            
+                                    <li><a href="./shopping-cart.html">Speakers</a></li>
 
                             </li>
 
@@ -162,6 +162,7 @@
                                         </div>
                                         <div class="product__cart__item__text">
                                             <h6>{{this.product.Name}}</h6>
+                                            <h6>{{this.product.Price}}</h6>
 
                                         </div>
                                     </td>
@@ -169,16 +170,18 @@
                                         <div class="quantity">
                                             <button
                                                 class=" button-minus border rounded-circle icon-shape icon-sm cart-item-count mr-3"
-                                                onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{this.product.price}}',-1)">-</button>
-                                            <span id="{{this.product._id}}" >{{this.quantity}}</span>
-                                            <button class="button-minus border rounded-circle icon-shape icon-sm cart-item-count mr-3"
-                                                onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{this.product.price}}',1)">+</button>
+                                                onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{this.product.Price}}',-1)">-</button>
+                                            <span id="{{this.product._id}}">{{this.quantity}}</span>
+                                            <button
+                                                class="button-minus border rounded-circle icon-shape icon-sm cart-item-count mr-3"
+                                                onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{this.product.Price}}',1)">+</button>
 
-                                        </div>  
+                                        </div>
                     </div>
                     </td>
-                    <td class="cart__quantity">{{this.product.Price}}</td>
-                    <td class="cart__close"><button onclick="removeProduct('{{this._id}}','{{this.product._id}}')"   class="fa fa-close"></button></td>
+                    <td class="cart__quantity" id="total{{this.product._id}}">{{this.product.Price}}</td>
+                    <td class="cart__close"><button onclick="removeProduct('{{this._id}}','{{this.product._id}}')"
+                            class="fa fa-close"></button></td>
                     </tr>
 
                     </tbody>
@@ -201,16 +204,19 @@
             <div class="col-lg-4">
                 <div class="cart__discount">
                     <h6>Discount codes</h6>
-                    <form action="#">
-                        <input type="text" placeholder="Coupon code">
+                    <form id="couponForm">
+                        <input type="text" name="code" placeholder="Coupon code">
                         <button type="submit">Apply</button>
                     </form>
                 </div>
-                <div class="cart__total">
+                <div id="cartTotal" class="cart__total">
                     <h6>Cart total</h6>
                     <ul>
-                     
+                        {{#if coupon}}
+                        <li>Total <span>Rs.{{discount}}</span></li>
+                        {{else}}
                         <li>Total <span>Rs.{{total}}</span></li>
+                        {{/if}}
                     </ul>
                     <a href="checkout" class="primary-btn">Proceed to checkout</a>
                 </div>
@@ -256,7 +262,6 @@
     */
 
     function changeQuantity(cartId, proId, price, count) {
-        console.log("hello")
         let quantity = parseInt(document.getElementById(proId).innerHTML)
         console.log(quantity)
         count = parseInt(count)
@@ -290,32 +295,62 @@
                     });
 
                 } else {
-                    document.getElementById(proId).value = quantity + count
-                    console.log(quantity, proId, count)
-                    document.getElementById('Total').innerHTML=response.total
-                    window.location.reload()
-                    
+                    document.getElementById(proId).innerHTML = quantity + count
+                    let j=quantity + count
+                    document.getElementById('total'+proId).innerHTML =j*price
+                  //  window.location.reload()
+
                 }
             }
 
         })
     }
-    function removeProduct(cartId,proId){
-    $.ajax({
-      url:'/remove-from-cart',
-      data:{
-        cart:cartId,
-      product:proId
-      },
-       method:'post',
-      success:(response)=>{
-        
-          alert("removed ")
-          location.reload()
+    function removeProduct(cartId, proId) {
+        $.ajax({
+            url: '/remove-from-cart',
+            data: {
+                cart: cartId,
+                product: proId
+            },
+            method: 'post',
+            success: (response) => {
 
-      }   
+                alert("removed ")
+                location.reload()
+
+            }
+        })
+    }
+
+    $('#couponForm').submit((e) => {
+        e.preventDefault();
+        $.ajax({
+            url: '/apply-coupon',
+            method: 'post',
+            data: $('#couponForm').serialize(),
+            success: (resource) => {
+                if (resource.status) {
+                    swal({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Coupon Success',
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+                    $("#cartTotal").load(location.href + " #cartTotal");
+                } else {
+                    swal({
+                        position: 'center',
+                        icon: 'Failed',
+                        title: 'Invalid coupon!',
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+                }
+            }
+        })
     })
-  }
+
 </script>
 
 </html>

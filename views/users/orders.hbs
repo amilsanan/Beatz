@@ -11,10 +11,12 @@
                                     <th>Date</th>
                                     <th>mobile</th>
                                     <th>Amount</th>
-                                    <th>Status</th>
                                     <th>Payment</th>
-                                     
+                                    <th>Status</th>
+                                    <th></th>
+                                    <th></th>
                                     
+                                     
                                 </tr>
                                 
                             </thead>
@@ -34,11 +36,20 @@
                                     <td>{{this.totalAmount}}</td>
                                     {{!-- {{/if}} --}}
 
-                                   <td>{{this.status}}</td> 
-                                    
                                     <td>{{this.paymentMethod}}</td>
 
-                                    <td><a class="btn btn-primary"  href="view-order-products/{{this._id}}">view products</a></td>
+                                   <td>{{this.status}}</td> 
+                                    
+                                     <td>
+                                   <a href="/cancel-orders/{{this._id}}" class="btn btn-danger">Cancel</a>
+                                     </td>
+                                 
+
+                                    <td><a class="btn btn-primary"  href="/order-products/{{this._id}}">view products</a></td>
+                                   
+                                   
+                               
+                                     
                                 </tr>
                                 
                                {{/each}}  
@@ -74,7 +85,8 @@
 
     <style>
         .orderMT{
-            margin-top: 90px;
+            margin-top: 130px;
+            margin-bottom: 70px;
         }
         .noOrder{
             margin-top: 90px;
